@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:each="status : ${statuses}" class="card mt-3">
+
+        <div class="card-body">
+            <div class="d-flex">
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User Avatar" class="rounded-circle me-3" width="48" height="48">
+                <div>
+                    <h5 class="card-title" th:text="${status.userDisplayName}"></h5>
+                    <p class="card-text" th:text="${status.userHandle}"></p>
+                </div>
+            </div>
+            <p class="card-text mt-3" th:text="${status.content}"></p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                
+                    <button type="button" class="btn btn-outline-primary"><i class="bi bi-heart"></i>Like</button>
+                    <button type="button" class="btn btn-outline-secondary"><i class="bi bi-chat"></i>Reply</button>
+                
+            </div>
+        </div>
+      </div>
+      <div class="card" id="loadMore">
+        <button 
+            th:hx-get=${link}
+            hx-swap="outerHTML"
+            hx-target="#loadMore"
+            hx-trigger="click"
+            type="button" class="btn btn-outline-primary"><i class="bi bi-heart"></i>Load More...</button>
+    </div>
+</html>
