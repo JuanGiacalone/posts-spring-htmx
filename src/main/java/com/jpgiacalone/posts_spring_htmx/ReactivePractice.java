@@ -38,12 +38,35 @@ public class ReactivePractice {
         return flux.skip(2);
     }
     private Flux<String> testSkip2() {
-        Flux<String> flux = Flux.just("hello from flux1","hello from flux2","hello from flux3");
-        return flux.delayElements(Duration.ofSeconds(1));
+        Flux<String> flux = Flux.just("Java","Cpp","Rust","Python")
+        .delayElements(Duration.ofSeconds(1));
+        return flux.skip(Duration.ofMillis(2010));
+        // this one will just print Rust and Pything since will skip 2,1 seconds and Cpp will come at 2 seconds and be skipped
     }
 
+    private Flux<String> testSkip3() {
+        Flux<String> flux = Flux.just("Java","Cpp","Rust","Python")
+        .delayElements(Duration.ofSeconds(1));
+        return flux.skipLast(2); // skips the last 2
+       
+    }
 
-    public static void main(String[] args) {
+    private Flux<Integer> testSkip4() {
+        Flux<Integer> flux  = Flux.range(1, 20).delayElements(Duration.ofSeconds(1));
+        // return flux.skipWhile(i -> i < 10); // it will skip while the condition is true
+        return flux.skipUntil(i -> i == 10); // it will skip until the condition is true
+    }
+
+    private Flux<Integer> testConcat() {
+
+        Flux<Integer> flux  = Flux.range(1, 20).delayElements(Duration.ofSeconds(1));
+        Flux<Integer> flux2  = Flux.range(110, 20).delayElements(Duration.ofSeconds(1));
+
+        return Flux.concat(flux, flux2).log();
+
+    }
+
+    public static void main(String[] args) throws InterruptedException {
         ReactivePractice runTest = new ReactivePractice(); runTest.testMono().subscribe( System.out::println );
         runTest.testFlux().subscribe( System.out::println );
         runTest.testMap().subscribe( System.out::println );
@@ -52,7 +75,7 @@ public class ReactivePractice {
         runTest.testSkip2().subscribe( System.out::println );
 
         try {
-            Thread.sleep(5000); 
+            Thread.sleep(10_000); 
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
