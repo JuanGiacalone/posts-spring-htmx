@@ -6,6 +6,9 @@ import static com.jpgiacalone.posts_spring_htmx.data.StatusData.STATUSES;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import reactor.core.publisher.Mono;
+
 import org.springframework.ui.Model;
 
 
@@ -15,6 +18,11 @@ import org.springframework.ui.Model;
 @Controller
 public class StatusController {
 
+
+    @GetMapping("/")
+    public Mono<String> handleMain() {
+        return Mono.just("feed");
+    }
 
     private static final int PAGE_LENTH = 10;
         @GetMapping("/feed")
